@@ -1,0 +1,9 @@
+*.log
+*.pot
+*.pyc
+*.swp
+__pycache__/
+migrations/
+db.sqlite3
+db.sqlite3-journal
+media
