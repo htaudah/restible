@@ -12,6 +12,6 @@ class ApiEndpoint(ProtectedResourceView):
     def get(self, request, *args, **kwargs):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(settings.ANSIBLE_HOST, port=22, username=ANSIBLE_USER, password=ANSIBLE_PASSWORD)
+        client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
         client.exec_command("echo hey > /tmp/echi")
         return HttpResponse('Hello, OAuth2!')
