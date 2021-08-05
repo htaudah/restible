@@ -15,3 +15,8 @@ class ApiEndpoint(ProtectedResourceView):
         client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
         client.exec_command("echo hey > /tmp/echi")
         return HttpResponse('Hello, OAuth2!')
+
+class HealthEndpoint(ProtectedResourceView):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('API is healthy')
+

@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from core.views import ApiEndpoint
+from core.views import ApiEndpoint, HealthEndpoint
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('api/hello', ApiEndpoint.as_view()),
+    path('api/health', HealthEndpoint.as_view()),
 ]
