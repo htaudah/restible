@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from oauth2_provider.views.generic import ProtectedResourceView
+from django.views.generic import View
 from django.http import HttpResponse
 
 from django.conf import settings
@@ -16,7 +17,7 @@ class ApiEndpoint(ProtectedResourceView):
         client.exec_command("echo hey > /tmp/echi")
         return HttpResponse('Hello, OAuth2!')
 
-class HealthEndpoint(ProtectedResourceView):
+class HealthEndpoint(View):
     def get(self, request, *args, **kwargs):
         return HttpResponse('API is healthy')
 
