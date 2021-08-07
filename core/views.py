@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from oauth2_provider.views.generic import ProtectedResourceView
 from django.views.generic import View
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 
 from django.conf import settings
@@ -18,6 +19,7 @@ class ApiEndpoint(ProtectedResourceView):
         client.exec_command("echo hey > /tmp/echi")
         return HttpResponse('Hello, OAuth2!')
 
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         request_data = json.loads(request.body)
         # userid = request_data['userid']
