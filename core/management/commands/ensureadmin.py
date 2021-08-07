@@ -6,7 +6,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('password', type=str)
-        parser.add_argument('domain' type=str)
+        parser.add_argument('domain', type=str)
 
     def handle(self, *args, **options):
         try:
