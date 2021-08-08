@@ -22,14 +22,16 @@ class ApiEndpoint(ProtectedResourceView):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         request_data = json.loads(request.body)
-        # userid = request_data['userid']
-        # subnet = request_data['subnet']
-        # client = paramiko.SSHClient()
-        # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        # client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
-        # client.exec_command("cd %s; ./run_playbooks.sh" % (settings.ANSIBLE_PATH,))
-        # return JsonResponse({'status':'running'})
-        return JsonResponse(request_data)
+        arg_string = ""
+        for key in request_data:
+            if key == 'playbooks':
+                continue
+            arg_string += " %s=%s" % (key, request_data[key])
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
+        client.exec_command("cd %s; ./run_playbooks.sh %s" % (settings.ANSIBLE_PATH, arg_string))
+        return JsonResponse({'status':'running'})
 
 class HealthEndpoint(View):
     def get(self, request, *args, **kwargs):
