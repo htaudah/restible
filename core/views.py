@@ -9,6 +9,7 @@ from django.conf import settings
 
 import paramiko
 import json
+import shlex
 
 # Create your views here.
 class ApiEndpoint(ProtectedResourceView):
@@ -35,8 +36,8 @@ class ApiEndpoint(ProtectedResourceView):
         if not ('playbooks' in request_data):
             return JsonResponse({'error': 'No playbooks were specified in request body'}, status=400)
         for playbook in request_data['playbooks']:
-            client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbook, json.dumps(request_params)))
-        return JsonResponse(request_params)
+            client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbook, shlex.quote(json.dumps(request_params))))
+        return JsonResponse({'status':'running'})
 
 class HealthEndpoint(View):
     def get(self, request, *args, **kwargs):
