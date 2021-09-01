@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ### USED TO HANDLE SECRETS FILE ###
 import json
+import os
 from django.core.exceptions import ImproperlyConfigured
 
 with open(os.path.json(BASE_DIR, 'secrets.json')) as secrets_file:
