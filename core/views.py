@@ -33,7 +33,7 @@ class ApiEndpoint(ProtectedResourceView):
         if not ('playbooks' in request_data):
             return JsonResponse({'error': 'No playbooks were specified in request body'}, status=400)
         for playbook in request_data['playbooks']:
-            client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbook, arg_string))
+            client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, arg_string, playbook))
         return JsonResponse({'status':'running'})
 
 class HealthEndpoint(View):
