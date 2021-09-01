@@ -20,7 +20,7 @@ import json
 import os
 from django.core.exceptions import ImproperlyConfigured
 
-with open(os.path.json(BASE_DIR, 'secrets.json')) as secrets_file:
+with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
     secrets = json.load(secrets_file)
 
 def get_secret(setting, secrets=secrets):
