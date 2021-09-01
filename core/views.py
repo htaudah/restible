@@ -30,10 +30,11 @@ class ApiEndpoint(ProtectedResourceView):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
-        client.exec_command("cd %s; ./run_playbooks.sh %s" % (settings.ANSIBLE_PATH, arg_string))
-        return JsonResponse({'status':'running'})
+        for playbook in request_data['playbooks']:
+            client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbooks, arg_string))
+        return HttpResponse('Hello, OAuth2!')
+        #return JsonResponse({'status':'running'})
 
 class HealthEndpoint(View):
     def get(self, request, *args, **kwargs):
         return HttpResponse('API is healthy')
-

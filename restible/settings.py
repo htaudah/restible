@@ -15,6 +15,20 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+### USED TO HANDLE SECRETS FILE ###
+import json
+from django.core.exceptions import ImproperlyConfigured
+
+with open(os.path.json(BASE_DIR, 'secrets.json')) as secrets_file:
+    secrets = json.load(secrets_file)
+
+def get_secret(setting, secrets=secrets):
+    """ Get secret setting or fail with ImproperlyConfigured exception"""
+    try:
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("{} setting is undefined in secrets file".format(setting))
+### END ###
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -144,8 +158,8 @@ REST_FRAMEWORK = {
 LOGIN_URL = '/admin/login/'
 
 ### APP SETTINGS GO HERE
-ANSIBLE_HOST = 'XX_ANSIBLE_HOST_XX'
-ANSIBLE_USER = 'XX_ANSIBLE_USER_XX'
-ANSIBLE_PASSWORD = 'XX_ANSIBLE_PASSWORD_XX'
+ANSIBLE_HOST = get_secret('ANSIBLE_HOST')
+ANSIBLE_USER = get_secret('ANSIBLE_USER')
+ANSIBLE_PASSWORD = get_secret('ANSIBLE_PASSWORD')
 
 ANSIBLE_PATH = '/root/vmlab'
