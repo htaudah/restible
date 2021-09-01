@@ -31,7 +31,7 @@ class ApiEndpoint(ProtectedResourceView):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(settings.ANSIBLE_HOST, port=22, username=settings.ANSIBLE_USER, password=settings.ANSIBLE_PASSWORD)
         if not ('playbooks' in request_data):
-            return JsonResponse({'error': 'No playbooks were specified in request body'}, status_code=400)
+            return JsonResponse({'error': 'No playbooks were specified in request body'}, status=400)
         for playbook in request_data['playbooks']:
             client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbooks, arg_string))
         return HttpResponse('Hello, OAuth2!')
