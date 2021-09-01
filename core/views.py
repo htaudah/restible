@@ -36,7 +36,7 @@ class ApiEndpoint(ProtectedResourceView):
             return JsonResponse({'error': 'No playbooks were specified in request body'}, status=400)
         for playbook in request_data['playbooks']:
             client.exec_command("%s/run_playbooks.sh %s %s" % (settings.ANSIBLE_PATH, playbook, json.dumps(request_params)))
-        return JsonResponse(json.dumps(request_params, safe=False))
+        return JsonResponse(request_params)
 
 class HealthEndpoint(View):
     def get(self, request, *args, **kwargs):
